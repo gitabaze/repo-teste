@@ -1,0 +1,111 @@
+﻿
+@{
+    ViewBag.Title = "Liste des vues";
+}
+
+<h2>Liste des profiles</h2>
+<div class="container">
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <label> liste des  profile</label>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <h4>Token</h4>
+                <button class="btn btn-default btn-sm" id="idLoadToke">charger Token</button>
+                <div class="">
+                    <table>
+                        <tr>
+                            <td>ID</td>
+                            <td><span id="ID"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Company ID</td>
+                            <td><span id="cID"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Key</td>
+                            <td><span id="keyId"></span></td>
+                        </tr>
+                        <tr>
+                            <td>CreateOn</td>
+                            <td><span id="createOn"></span></td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+            <div class="row">
+                <button class="btn btn-default btn-sm" id="idLoad">charger données</button>
+            </div>
+            <div class="row">
+                <div id="divResult"></div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+    {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#idLoad').on('click', function () {
+                jQuery.support.cors = true;
+                $.ajax({
+                    url: '/api/Langues',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        alert(' totals' + datas);
+                         WriteResponses(data);
+                     
+
+                    },
+                    error: function (x, y, z) {
+                        alert(x + '\n' + y + '\n' + z);
+                    }
+                });
+            });
+
+            $('#idLoadToke').on('click', function () {
+                jQuery.support.cors = true;
+                $.ajax({
+                    url: '/api/Token/'+1,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#ID').html(data.ID);
+                        $('#CompanyID').html(data.CompanyID);
+                        $('#keyId').html(data.key);
+
+                    },
+                    error: function (x, y, z) {
+                        alert(x + '\n' + y + '\n' + z);
+                    }
+                });
+            });
+        });
+
+        function WriteResponses(students) {
+            var strResult = "<table><th>ID</th><th>Libelle</th><th>Action</th>";
+            $.each(students, function (index, profile) {
+                
+                strResult += "<tr><td>" + profile.ProfileID + "</td><td> " + profile.Libelle + "</td><td>" + '' + "</td></tr>";
+            });
+            strResult += "</table>";
+            $("#divResult").html(strResult);
+        }
+
+        function WriteResponsesLangues(langues) {
+            var strResult = "<table><th>ID</th><th>Libelle</th><th>Action</th>";
+            $.each(langues, function (index, langue) {
+
+                strResult += "<tr><td>" + langue.LangueID + "</td><td> " + langue.Libelle + "</td><td>" + '' + "</td></tr>";
+            });
+            strResult += "</table>";
+            $("#divResult").html(strResult);
+        }
+    </script>
+    
+    }
+
